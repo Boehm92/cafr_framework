@@ -1,0 +1,11 @@
+numpy-stl
+torch~=1.10.2
+torch-scatter
+torch-sparse
+torch-cluster
+torch-spline-conv
+torch-geometric -f https://data.pyg.org/whl/torch-1.10.0+cpu.html
+numpy~=1.22.2
+matplotlib~=3.5.1
+networkx~=2.6.3
+numpy
