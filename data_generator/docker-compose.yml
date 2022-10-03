@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  graph_cad_net:
+    container_name: graph_cad_net
+    build: .
+    volumes:
+      - $DATA_FOLDER_EXTERNAL:$DATA_FOLDER
+      - $WEIGHTS_FOLDER_EXTERNAL:$WEIGHTS_FOLDER
+      - $TEMPLATES_FOLDER_EXTERNAL:$TEMPLATES_FOLDER
+    environment:
+      - TEST_DATASET_SOURCE
+      - TEST_DATASET_DESTINATION
+      - TRAINING_DATASET_SOURCE
+      - TRAINING_DATASET_DESTINATION
+      - TEMPLATES_SOURCE
+      - WANDB_API_KEY
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]

@@ -1,10 +1,12 @@
 import torch
+import math
+
 import numpy as np
 from stl import mesh
 from torch_geometric.data import Data
 
 
-def create(cad_directory, graph_label):
+def create(cad_directory, file_labels):
     # numpy-stl method to import an .STL file as mesh object
     m = mesh.Mesh.from_file(cad_directory)
 
@@ -27,10 +29,11 @@ def create(cad_directory, graph_label):
         edge_index.append([index_list[0], index_list[2]])
 
     # create graph objects with the x and edge_index list
-    x = torch.tensor(x)
+    x = torch.tensor(x / np.array([10, 10, 10])).float()
     edge_index = torch.tensor(edge_index)
-    y = torch.tensor(graph_label)
-
-    graph = Data(x=x, edge_index=edge_index.t().contiguous(), y=y)
+    label_array = np.zeros(24)
+    for label in file_labels:
+        label_array[label] = 1
+    graph = Data(x=x, edge_index=edge_index.t().contiguous(), y=torch.tensor(label_array))
 
     return graph
