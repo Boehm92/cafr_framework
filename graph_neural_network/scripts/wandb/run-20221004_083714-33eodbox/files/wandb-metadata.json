@@ -1,0 +1,24 @@
+{
+    "os": "Windows-10-10.0.19044-SP0",
+    "python": "3.10.2",
+    "heartbeatAt": "2022-10-04T06:37:16.274105",
+    "startedAt": "2022-10-04T06:37:14.762479",
+    "docker": null,
+    "gpu": "Quadro T2000",
+    "gpu_count": 1,
+    "cpu_count": 12,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "C:\\Users\\bost886\\Desktop\\Repos\\machining_feature_recognition\\graph_neural_network\\scripts\\__main__.py",
+    "codePath": "graph_neural_network\\scripts\\__main__.py",
+    "git": {
+        "remote": "https://github.com/Boehm92/machining_feature_recognition.git",
+        "commit": "cd2921cc2c5caa7714898648730c525ea2364201"
+    },
+    "email": "boehmteisendorf@t-online.de",
+    "root": "C:/Users/bost886/Desktop/Repos/machining_feature_recognition",
+    "host": "LTROD10408",
+    "username": "bost886",
+    "executable": "C:\\Users\\bost886\\Desktop\\Repos\\machining_feature_recognition\\graph_neural_network\\venv_graph_neural_network\\Scripts\\python.exe"
+}

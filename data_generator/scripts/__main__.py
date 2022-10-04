@@ -7,14 +7,14 @@ min_scale = 1
 max_scale = 9
 min_depth = 1
 max_depth = 9
-cube = mdc.read('../cad_templates/Cube.stl')
+cube = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Cube.stl')
 cube.mergeclose()
 cube = mdc.segmentation(cube)
 
-main_mf = 0
+main_mf = 2
 loop_number = 0
 
-for i in range(loop_number , loop_number + 20):
+for i in range(loop_number, loop_number + 200):
     # if (i % 564) == 0:
     #     main_mf += 1
 
@@ -50,11 +50,11 @@ for i in range(loop_number , loop_number + 20):
     # model_scale_factor = np.random.uniform(0.5, 1)
     # model = model.transform(mdc.mat3(model_scale_factor, model_scale_factor, model_scale_factor))
 
-    mdc.write(model, os.getenv('TEST_DATA') + "/" + str(main_mf) + "/" + str(i) + ".stl")
+    mdc.write(model, os.getenv('TEST_DATASET_SOURCE') + "/" + str(main_mf) + "/" + str(i) + ".stl")
 
     labels = pd.DataFrame(label_list)
-    labels.to_csv(os.getenv('TEST_DATA') + "/" + str(main_mf) + "/" + str(i) + ".csv", header=False, index=False)
-    print(os.getenv('TEST_DATA') + "/" + str(main_mf) + "/" + str(i))
+    labels.to_csv(os.getenv('TEST_DATASET_SOURCE') + "/" + str(main_mf) + "/" + str(i) + ".csv", header=False, index=False)
+    print(os.getenv('TEST_DATASET_SOURCE') + "/" + str(main_mf) + "/" + str(i))
 
     del model
     del labels

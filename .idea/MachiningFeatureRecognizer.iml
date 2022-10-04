@@ -3,8 +3,9 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/graph_neural_network/venv_graph_neural_network" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (machining_feature_recognition)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (machining_feature_recognition) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

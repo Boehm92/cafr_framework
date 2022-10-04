@@ -31,8 +31,8 @@ class MachiningFeature:
         return self.machining_feature_functions[self.machining_feature]()
 
     def o_ring(self):
-        _outside_ring = mdc.read(os.getenv('TEMPLATES') + '/O_Ring.stl')
-        _inside_ring = mdc.read(os.getenv('TEMPLATES') + '/O_Ring.stl')
+        _outside_ring = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/O_Ring.stl')
+        _inside_ring = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/O_Ring.stl')
         _outside_ring.mergeclose()
         _inside_ring.mergeclose()
         _outside_ring = mdc.segmentation(_outside_ring)
@@ -59,7 +59,7 @@ class MachiningFeature:
         return updated_model
 
     def trough_hole(self):
-        _trough_hole = mdc.read(os.getenv('TEMPLATES') + '/Trough_Hole.stl')
+        _trough_hole = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Trough_Hole.stl')
 
         _trough_hole.mergeclose()
         _trough_hole = mdc.segmentation(_trough_hole)
@@ -76,7 +76,7 @@ class MachiningFeature:
         return updated_model
 
     def blind_hole(self):
-        _blind_hole = mdc.read(os.getenv('TEMPLATES') + '/Blind_Hole.stl')
+        _blind_hole = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Blind_Hole.stl')
 
         _blind_hole.mergeclose()
         _blind_hole = mdc.segmentation(_blind_hole)
@@ -94,7 +94,7 @@ class MachiningFeature:
         return updated_model
 
     def triangular_passage(self):
-        _triangular_passage = mdc.read(os.getenv('TEMPLATES') + '/Triangular_Passage.stl')
+        _triangular_passage = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Triangular_Passage.stl')
 
         _triangular_passage.mergeclose()
         _triangular_passage = mdc.segmentation(_triangular_passage)
@@ -112,7 +112,7 @@ class MachiningFeature:
         return updated_model
 
     def rectangular_passage(self):
-        _rectangular_passage = mdc.read(os.getenv('TEMPLATES') + '/Rectangular_Passage.stl')
+        _rectangular_passage = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Rectangular_Passage.stl')
 
         _rectangular_passage.mergeclose()
         _rectangular_passage = mdc.segmentation(_rectangular_passage)
@@ -130,7 +130,7 @@ class MachiningFeature:
         return updated_model
 
     def circular_trough_slot(self):
-        _circular_trough_slot = mdc.read(os.getenv('TEMPLATES') + '/Circular_Trough_Slot.stl')
+        _circular_trough_slot = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Circular_Trough_Slot.stl')
 
         _circular_trough_slot.mergeclose()
         _circular_trough_slot = mdc.segmentation(_circular_trough_slot)
@@ -146,7 +146,7 @@ class MachiningFeature:
         return updated_model
 
     def triangular_trough_slot(self):
-        _triangular_trough_slot = mdc.read(os.getenv('TEMPLATES') + '/Triangular_Trough_Slot.stl')
+        _triangular_trough_slot = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Triangular_Trough_Slot.stl')
 
         _triangular_trough_slot.mergeclose()
         _triangular_trough_slot = mdc.segmentation(_triangular_trough_slot)
@@ -163,7 +163,7 @@ class MachiningFeature:
         return updated_model
 
     def rectangular_trough_slot(self):
-        _rectangular_trough_slot = mdc.read(os.getenv('TEMPLATES') + '/Rectangular_Trough_Slot.stl')
+        _rectangular_trough_slot = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Rectangular_Trough_Slot.stl')
 
         _rectangular_trough_slot.mergeclose()
         _rectangular_trough_slot = mdc.segmentation(_rectangular_trough_slot)
@@ -180,7 +180,7 @@ class MachiningFeature:
         return updated_model
 
     def rectangular_blind_slot(self):
-        _rectangular_blind_slot = mdc.read(os.getenv('TEMPLATES') + '/Rectangular_Blind_Slot.stl')
+        _rectangular_blind_slot = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Rectangular_Blind_Slot.stl')
 
         _rectangular_blind_slot.mergeclose()
         _rectangular_blind_slot = mdc.segmentation(_rectangular_blind_slot)
@@ -198,7 +198,7 @@ class MachiningFeature:
         return updated_model
 
     def triangular_pocket(self):
-        _triangular_pocket = mdc.read(os.getenv('TEMPLATES') + '/Triangular_Pocket.stl')
+        _triangular_pocket = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Triangular_Pocket.stl')
 
         _triangular_pocket.mergeclose()
         _triangular_pocket = mdc.segmentation(_triangular_pocket)
@@ -216,7 +216,7 @@ class MachiningFeature:
         return updated_model
 
     def rectangular_pocket(self):
-        _rectangular_pocket = mdc.read(os.getenv('TEMPLATES') + '/Rectangular_Pocket.stl')
+        _rectangular_pocket = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Rectangular_Pocket.stl')
 
         _rectangular_pocket.mergeclose()
         _rectangular_pocket = mdc.segmentation(_rectangular_pocket)
@@ -235,7 +235,7 @@ class MachiningFeature:
         return updated_model
 
     def circular_end_pocket(self):
-        _circular_end_pocket = mdc.read(os.getenv('TEMPLATES') + '/Circular_End_Pocket.stl')
+        _circular_end_pocket = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Circular_End_Pocket.stl')
 
         _circular_end_pocket.mergeclose()
         _circular_end_pocket = mdc.segmentation(_circular_end_pocket)
@@ -254,7 +254,7 @@ class MachiningFeature:
         return updated_model
 
     def triangular_blind_step(self):
-        _triangular_blind_step = mdc.read(os.getenv('TEMPLATES') + '/Triangular_Blind_Step.stl')
+        _triangular_blind_step = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Triangular_Blind_Step.stl')
 
         _triangular_blind_step.mergeclose()
         _triangular_blind_step = mdc.segmentation(_triangular_blind_step)
@@ -271,7 +271,7 @@ class MachiningFeature:
         return updated_model
 
     def circular_blind_step(self):
-        _circular_blind_step = mdc.read(os.getenv('TEMPLATES') + '/Circular_Blind_Step.stl')
+        _circular_blind_step = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Circular_Blind_Step.stl')
 
         _circular_blind_step.mergeclose()
         _circular_blind_step = mdc.segmentation(_circular_blind_step)
@@ -287,7 +287,7 @@ class MachiningFeature:
         return updated_model
 
     def rectangular_blind_step(self):
-        _rectangular_blind_step = mdc.read(os.getenv('TEMPLATES') + '/Rectangular_Blind_Step.stl')
+        _rectangular_blind_step = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Rectangular_Blind_Step.stl')
 
         _rectangular_blind_step.mergeclose()
         _rectangular_blind_step = mdc.segmentation(_rectangular_blind_step)
@@ -304,7 +304,7 @@ class MachiningFeature:
         return updated_model
 
     def rectangular_trough_step(self):
-        _rectangular_trough_step = mdc.read(os.getenv('TEMPLATES') + '/Rectangular_Trough_Step.stl')
+        _rectangular_trough_step = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Rectangular_Trough_Step.stl')
 
         _rectangular_trough_step.mergeclose()
         _rectangular_trough_step = mdc.segmentation(_rectangular_trough_step)
@@ -320,7 +320,7 @@ class MachiningFeature:
         return updated_model
 
     def two_side_through_step(self):
-        _two_side_through_step = mdc.read(os.getenv('TEMPLATES') + '/Two_Side_Trough_Step.stl')
+        _two_side_through_step = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Two_Side_Trough_Step.stl')
 
         _two_side_through_step.mergeclose()
         _two_side_through_step = mdc.segmentation(_two_side_through_step)
@@ -336,7 +336,7 @@ class MachiningFeature:
         return updated_model
 
     def slanted_through_step(self):
-        _slanted_through_step = mdc.read(os.getenv('TEMPLATES') + '/Slanted_Trough_Step.stl')
+        _slanted_through_step = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Slanted_Trough_Step.stl')
 
         _slanted_through_step.mergeclose()
         _slanted_through_step = mdc.segmentation(_slanted_through_step)
@@ -352,7 +352,7 @@ class MachiningFeature:
         return updated_model
 
     def chamfer(self):
-        _chamfer = mdc.read(os.getenv('TEMPLATES') + '/Chamfer.stl')
+        _chamfer = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Chamfer.stl')
 
         _chamfer.mergeclose()
         _chamfer = mdc.segmentation(_chamfer)
@@ -368,7 +368,7 @@ class MachiningFeature:
         return updated_model
 
     def round(self):
-        _round = mdc.read(os.getenv('TEMPLATES') + '/Round.stl')
+        _round = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Round.stl')
 
         _round.mergeclose()
         _round = mdc.segmentation(_round)
@@ -384,7 +384,7 @@ class MachiningFeature:
         return updated_model
 
     def vertical_circular_end_blind_slot(self):
-        _vertical_circular_end_blind_slot = mdc.read(os.getenv('TEMPLATES') + '/Vertical_Circular_End_Blind_Slot.stl')
+        _vertical_circular_end_blind_slot = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Vertical_Circular_End_Blind_Slot.stl')
 
         _vertical_circular_end_blind_slot.mergeclose()
         _vertical_circular_end_blind_slot = mdc.segmentation(_vertical_circular_end_blind_slot)
@@ -405,7 +405,7 @@ class MachiningFeature:
 
     def horizontal_circular_end_blind_slot(self):
         _horizontal_circular_end_blind_slot = mdc.read(
-            os.getenv('TEMPLATES') + '/Horizontal_Circular_End_Blind_Slot.stl')
+            os.getenv('TEMPLATES_SOURCE') + '/Horizontal_Circular_End_Blind_Slot.stl')
 
         _horizontal_circular_end_blind_slot.mergeclose()
         _horizontal_circular_end_blind_slot = mdc.segmentation(_horizontal_circular_end_blind_slot)
@@ -425,7 +425,7 @@ class MachiningFeature:
         return updated_model
 
     def six_side_passage(self):
-        _six_side_pocket = mdc.read(os.getenv('TEMPLATES') + '/Six_Side_Passage.stl')
+        _six_side_pocket = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Six_Side_Passage.stl')
 
         _six_side_pocket.mergeclose()
         _six_side_pocket = mdc.segmentation(_six_side_pocket)
@@ -442,7 +442,7 @@ class MachiningFeature:
         return updated_model
 
     def six_side_pocket(self):
-        _six_side_pocket = mdc.read(os.getenv('TEMPLATES') + '/Six_Side_Pocket.stl')
+        _six_side_pocket = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Six_Side_Pocket.stl')
 
         _six_side_pocket.mergeclose()
         _six_side_pocket = mdc.segmentation(_six_side_pocket)
