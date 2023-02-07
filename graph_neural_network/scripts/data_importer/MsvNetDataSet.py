@@ -61,7 +61,7 @@ class MsvNetDataSet(InMemoryDataset):
                         for line in f.readlines():
                             file_labels.append(int(line.split(",")[-1]))
 
-                        file_name = str(file).replace('.csv', '.STL')
+                        file_name = str(file).replace('.csv', '.stl')
                         self.data_list.append(create_graph(root + '/' + file_name, file_labels))
                         print(file_name)
 

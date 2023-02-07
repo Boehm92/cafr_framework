@@ -129,3 +129,5 @@ dmypy.json
 
 # costum
 *.STL
+*.stl
+*.csv

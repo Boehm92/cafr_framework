@@ -1,3 +1,3 @@
 numpy-stl==2.16.3
-pymadcad==0.11.0
-pandas==1.4.3
+pymadcad==0.15.1
+pandas==1.5.3

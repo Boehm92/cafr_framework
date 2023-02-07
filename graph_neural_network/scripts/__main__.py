@@ -10,7 +10,7 @@ from graph_neural_network.scripts.network_model.Model import GCN
 torch.manual_seed(1)
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(device)
-data_partition = 20
+data_partition = 1526
 
 test_dataset = MsvNetDataSet(os.getenv('TEST_DATASET_SOURCE'), os.getenv('TEST_DATASET_DESTINATION')).shuffle()
 training_dataset = MsvNetDataSet(os.getenv('TRAINING_DATASET_SOURCE'), os.getenv('TRAINING_DATASET_DESTINATION')).shuffle()
@@ -19,10 +19,10 @@ STUDY_NAME = "MRF_GNN"
 
 def objective(trial):
     # Hyperparameter
-    max_epoch = 100
-    number_conv_layers = trial.suggest_int("number_conv_layers", 2, 8)
+    max_epoch = 30
+    number_conv_layers = trial.suggest_int("number_conv_layers", 2, 6)
     h_channel = trial.suggest_categorical("h_channel", [64, 128, 256, 512])
-    b_size = 1 # trial.suggest_categorical("b_size", [4, 8, 16, 32, 64])
+    b_size = trial.suggest_categorical("b_size", [8, 16])
     lr = trial.suggest_float("lr", 1e-4, 1e-2)
     dropout_probability = trial.suggest_float("dropout_probability", 0.1, 0.5, step=0.1)
 
@@ -44,7 +44,7 @@ def objective(trial):
 
     config = dict(trial.params)
     config["trial.number"] = trial.number
-    wandb.init(project="FeatureExtraction",
+    wandb.init(project="FeatureExtraction-2Features",
                entity="boehm92",
                config=config,
                group=STUDY_NAME,
@@ -85,4 +85,4 @@ if __name__ == '__main__':
         direction="maximize",
         study_name=STUDY_NAME,
     )
-    study.optimize(objective, n_trials=500)
+    study.optimize(objective, n_trials=1000)
