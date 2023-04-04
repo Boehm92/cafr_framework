@@ -10,12 +10,15 @@ max_depth = 6
 
 machining_feature = 0
 
+cad_directory = 'TRAINING_DATASET_SOURCE'
+
 # 74, 1766
-# Training: 147 3633 | Test: 22 530 | Training-Val-Seperation: 3072
+# Training: 147 3633 | Test: 22 528 | Training-Val-Seperation: 3072
+# 1024 Models per Class: Training: 1177 28248 | Test: 153 | 3671 | Training-Val-Seperation: 24576
 
-for i in range(1, 530):
+for i in range(1, 113040):
 
-    if i % 22 == 0:
+    if i % 4710 == 0:
         machining_feature += 1
 
     print("Part: ", i)
@@ -40,7 +43,7 @@ for i in range(1, 530):
             print(" machining feature not feasible")
 
 
-    number_machining_features = 1  # np.random.randint(0, 2)
+    number_machining_features = np.random.randint(0, 10)
     for count in range(number_machining_features):
         try:
             additional_machining_feature = np.random.randint(0, 24)
@@ -58,9 +61,9 @@ for i in range(1, 530):
     # model_scale_factor = np.random.uniform(0.5, 1)
     # model = model.transform(mdc.mat3(model_scale_factor, model_scale_factor, model_scale_factor))
 
-    mdc.write(model, os.getenv('TEST_DATASET_SOURCE') + "/" + str(i) + ".stl")
+    mdc.write(model, os.getenv(cad_directory) + "/" + str(i) + ".stl")
     labels = pd.DataFrame(label_list)
-    labels.to_csv(os.getenv('TEST_DATASET_SOURCE') + "/" + str(i) + ".csv", header=False, index=False)
+    labels.to_csv(os.getenv(cad_directory) + "/" + str(i) + ".csv", header=False, index=False)
 
     del model
     del labels

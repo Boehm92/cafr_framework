@@ -8,8 +8,9 @@
       <excludeFolder url="file://$MODULE_DIR$/graph_neural_network/scripts/venv" />
       <excludeFolder url="file://$MODULE_DIR$/graph_neural_network/venv" />
       <excludeFolder url="file://$MODULE_DIR$/data_generator/venv_data_generator" />
+      <excludeFolder url="file://$MODULE_DIR$/graph_neural_network/venv_for_programming" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.8 (gnn_machining_feature_extraction) (2)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (gnn_machining_feature_recognition)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

@@ -2,52 +2,43 @@ import torch
 from torch.nn import Linear
 import torch.nn.functional as f
 from sklearn.metrics import f1_score
-from torch_geometric.nn import GCNConv, FeaStConv, GATConv, GraphConv
+# bevor next run change convlayer count!!!
+from torch_geometric.nn import GraphConv as GraphConvLayer
 from torch_geometric.nn import global_mean_pool
 
-class GCN(torch.nn.Module):
-    def __init__(self, hidden_channels, dataset, batch_size,
-                 dropout_probability, number_conv_layers, device):
+class GraphConvModel(torch.nn.Module):
+    def __init__(self, dataset, device, batch_size=64, dropout_probability=0.4, hidden_channels=256):
         super().__init__()
+        self.device = device
         self.device = device
         self.batch_size = batch_size
         self.dropout_probability = dropout_probability
-        self.number_conv_layers = number_conv_layers
-        self.conv_layers = []
 
-        self.conv1 = GraphConv(dataset.num_node_features, int(hidden_channels), aggr='mean')
-        self.conv_layers.append(self.conv1)
-        if self.number_conv_layers > 1:
-            self.conv2 = GraphConv(int(hidden_channels), int(hidden_channels), aggr='mean')
-            self.conv_layers.append(self.conv2)
-        if self.number_conv_layers > 2:
-            self.conv3 = GraphConv(int(hidden_channels), int(hidden_channels), aggr='mean')
-            self.conv_layers.append(self.conv3)
-        if self.number_conv_layers > 3:
-            self.conv4 = GraphConv(int(hidden_channels), int(hidden_channels), aggr='mean')
-            self.conv_layers.append(self.conv4)
-        if self.number_conv_layers > 4:
-            self.conv5 = GraphConv(int(hidden_channels), int(hidden_channels), aggr='mean')
-            self.conv_layers.append(self.conv5)
-        if self.number_conv_layers > 5:
-            self.conv6 = GraphConv(int(hidden_channels), int(hidden_channels), aggr='mean')
-            self.conv_layers.append(self.conv6)
-        if self.number_conv_layers > 6:
-            self.conv7 = GraphConv(int(hidden_channels), int(hidden_channels), aggr='mean')
-            self.conv_layers.append(self.conv7)
-
+        self.conv1 = GraphConvLayer(dataset.num_node_features, int(hidden_channels))
+        self.conv2 = GraphConvLayer(int(hidden_channels), int(hidden_channels))
+        self.conv3 = GraphConvLayer(int(hidden_channels), int(hidden_channels))
+        self.conv4 = GraphConvLayer(int(hidden_channels), int(hidden_channels))
+        self.conv5 = GraphConvLayer(int(hidden_channels), int(hidden_channels))
+        self.conv6 = GraphConvLayer(int(hidden_channels), int(hidden_channels))
+        self.conv7 = GraphConvLayer(int(hidden_channels), int(hidden_channels))
         self.lin_out = Linear(int(hidden_channels), 24)
 
     def forward(self, x, edge_index, batch):
-        for conv_layer in self.conv_layers:
-            x = conv_layer(x, edge_index)
-            x = x.relu()
-            x = f.dropout(x, p=self.dropout_probability, training=self.training)
+        # 1. Obtain node embeddings
+        x = f.relu(self.conv1(x, edge_index))
+        x = f.relu(self.conv2(x, edge_index))
+        x = f.relu(self.conv3(x, edge_index))
+        x = f.relu(self.conv4(x, edge_index))
+        x = f.relu(self.conv5(x, edge_index))
+        x = f.relu(self.conv6(x, edge_index))
+        x = f.relu(self.conv7(x, edge_index))
 
         # 2. Readout layer
         x = global_mean_pool(x, batch)
 
+
         # 3. Apply a final classifier
+        x = f.dropout(x, p=self.dropout_probability, training=self.training)
         x = self.lin_out(x)
 
         return x

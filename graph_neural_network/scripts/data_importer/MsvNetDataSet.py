@@ -1,7 +1,7 @@
 import os
 import torch
 from torch_geometric.data import InMemoryDataset
-from graph_neural_network.scripts.data_importer.cad_graph_converter import create as create_graph
+from data_importer.cad_graph_converter import create as create_graph
 
 
 class MsvNetDataSet(InMemoryDataset):
@@ -48,7 +48,7 @@ class MsvNetDataSet(InMemoryDataset):
 
     def process(self):
         path = self.raw_data_root
-
+        print(self.raw_data_root)
         for root, dirs, files in os.walk(self.raw_data_root):
 
             for file in files:
