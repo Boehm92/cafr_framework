@@ -34,6 +34,7 @@ def create(cad_directory, file_labels):
     label_array = np.zeros(24)
     for label in file_labels:
         label_array[label] = 1
+
     graph = Data(x=x, edge_index=edge_index.t().contiguous(), y=torch.tensor(label_array))
 
     return graph

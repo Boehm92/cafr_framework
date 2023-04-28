@@ -4,58 +4,45 @@ from cube_transform import *
 import machining_feature_transform as mft
 
 min_scale = 1
-max_scale = 6
+max_scale = 9
 min_depth = 1
-max_depth = 6
+max_depth = 9
 
-machining_feature = 0
+machining_feature = 20
 
 cad_directory = 'TRAINING_DATASET_SOURCE'
 
-# 74, 1766
-# Training: 147 3633 | Test: 22 528 | Training-Val-Seperation: 3072
-# 1024 Models per Class: Training: 1177 28248 | Test: 153 | 3671 | Training-Val-Seperation: 24576
+for i in range(11193,  13547):
 
-for i in range(1, 113040):
-
-    if i % 4710 == 0:
+    if i % 589 == 0:
         machining_feature += 1
 
     print("Part: ", i)
-    model = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Cube.stl')
-    model.mergeclose()
-    model = mdc.segmentation(model)
     label_list = []
 
+    try:
+        print("machining feature: ", machining_feature)
 
-    number_machining_features = 1 #np.random.randint(0, 2)
-    for count in range(number_machining_features):
-        try:
-            #machining_feature = np.random.randint(0, 24)
-            print("machining feature: ", machining_feature)
-
-            model = mft.MachiningFeature(
-                model, machining_feature, min_scale, max_scale, min_depth, max_depth).apply_feature()
-            model = rotate_model_randomly(model)
-
-            label_list.append([0, 0, 0, 0, 0, 0, machining_feature])
-        except:
-            print(" machining feature not feasible")
+        model = mft.MachiningFeature(machining_feature, min_scale, max_scale, min_depth, max_depth).apply_feature()
+        # model = rotate_model_randomly(model)
+        label_list.append([0, 0, 0, 0, 0, 0, machining_feature])
+    except:
+         print(" machining feature not feasible")
 
 
-    number_machining_features = np.random.randint(0, 10)
-    for count in range(number_machining_features):
-        try:
-            additional_machining_feature = np.random.randint(0, 24)
-            print("additional_machining_feature: ", additional_machining_feature)
-
-            model = mft.MachiningFeature(
-                model, additional_machining_feature, min_scale, max_scale, min_depth, max_depth).apply_feature()
-            model = rotate_model_randomly(model)
-
-            label_list.append([0, 0, 0, 0, 0, 0, additional_machining_feature])
-        except:
-            print(" machining feature not feasible")
+    # number_machining_features = np.random.randint(0, 10)
+    # for count in range(number_machining_features):
+    #     try:
+    #         additional_machining_feature = np.random.randint(0, 24)
+    #         print("additional_machining_feature: ", additional_machining_feature)
+    #
+    #         model = mft.MachiningFeature(
+    #             model, additional_machining_feature, min_scale, max_scale, min_depth, max_depth).apply_feature()
+    #         model = rotate_model_randomly(model)
+    #
+    #         label_list.append([0, 0, 0, 0, 0, 0, additional_machining_feature])
+    #     except:
+    #         print(" machining feature not feasible")
 
     # # DA: Random Scale
     # model_scale_factor = np.random.uniform(0.5, 1)

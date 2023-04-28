@@ -15,9 +15,9 @@ class GraphConvModel(torch.nn.Module):
         self.conv1 = GraphConvLayer(dataset.num_node_features, int(hidden_channels))
         self.conv2 = GraphConvLayer(int(hidden_channels), int(hidden_channels), aggr='mean')
         self.conv3 = GraphConvLayer(int(hidden_channels), int(hidden_channels), aggr='mean')
-        self.conv4 = GraphConvLayer(int(hidden_channels), int(hidden_channels), aggr='mean')
-        self.conv5 = GraphConvLayer(int(hidden_channels), int(hidden_channels), aggr='mean')
-        self.conv6 = GraphConvLayer(int(hidden_channels), int(hidden_channels), aggr='mean')
+        # self.conv4 = GraphConvLayer(int(hidden_channels), int(hidden_channels), aggr='mean')
+        # self.conv5 = GraphConvLayer(int(hidden_channels), int(hidden_channels), aggr='mean')
+        # self.conv6 = GraphConvLayer(int(hidden_channels), int(hidden_channels), aggr='mean')
         self.lin_out = Linear(int(hidden_channels), 24)
 
     def forward(self, x, edge_index, batch):
@@ -31,15 +31,15 @@ class GraphConvModel(torch.nn.Module):
         x = self.conv3(x, edge_index)
         x = x.relu()
         x = f.dropout(x, p=self.dropout_probability, training=self.training)
-        x = self.conv4(x, edge_index)
-        x = x.relu()
-        x = f.dropout(x, p=self.dropout_probability, training=self.training)
-        x = self.conv5(x, edge_index)
-        x = x.relu()
-        x = f.dropout(x, p=self.dropout_probability, training=self.training)
-        x = self.conv6(x, edge_index)
-        x = x.relu()
-        x = f.dropout(x, p=self.dropout_probability, training=self.training)
+        # x = self.conv4(x, edge_index)
+        # x = x.relu()
+        # x = f.dropout(x, p=self.dropout_probability, training=self.training)
+        # x = self.conv5(x, edge_index)
+        # x = x.relu()
+        # x = f.dropout(x, p=self.dropout_probability, training=self.training)
+        # x = self.conv6(x, edge_index)
+        # x = x.relu()
+        # x = f.dropout(x, p=self.dropout_probability, training=self.training)
 
         # 2. Readout layer
         x = global_mean_pool(x, batch)
@@ -90,22 +90,18 @@ class GraphConvModel(torch.nn.Module):
         return f1_score(y, pred, average='micro') if pred.sum() > 0 else 0
 
     @torch.no_grad()
-    def test_model(self, loader, batch):
+    def test_model(self, loader):
         self.eval()
 
         ys, preds = [], []
         for data in loader:
-            ys.append(data.y.reshape(batch, -1))
+            ys.append(data.y.reshape(self.batch_size, -1))
             out = self(data.x.to(self.device), data.edge_index.to(self.device), data.batch.to(self.device))
 
-            predicted = torch.max(out, 1)
-            labels = torch.tensor(predicted)
-            print("Pred: ", labels)
+            # properbility = torch.sigmoid(out)
+            # print("Pred: ", properbility)
 
             preds.append((out > 0).float().cpu())
         y, pred = torch.cat(ys, dim=0).numpy(), torch.cat(preds, dim=0).numpy()
 
-
-
         return f1_score(y, pred, average='micro') if pred.sum() > 0 else 0
-

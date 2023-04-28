@@ -6,8 +6,7 @@ from torch_geometric.nn import GraphConv as GraphConvLayer # FeaStConv, GATConv,
 from torch_geometric.nn import global_mean_pool
 
 class TestModel(torch.nn.Module):
-    def __init__(self, hidden_channels, dataset, batch_size,
-                 dropout_probability, number_conv_layers, device):
+    def __init__(self, dataset, device, batch_size, dropout_probability, number_conv_layers, hidden_channels):
         super().__init__()
         self.device = device
         self.batch_size = batch_size
@@ -42,7 +41,6 @@ class TestModel(torch.nn.Module):
         for conv_layer in self.conv_layers:
             x = conv_layer(x, edge_index)
             x = x.relu()
-
 
         # 2. Readout layer
         x = global_mean_pool(x, batch)
@@ -94,12 +92,12 @@ class TestModel(torch.nn.Module):
         return f1_score(y, pred, average='micro') if pred.sum() > 0 else 0
 
     @torch.no_grad()
-    def test_model(self, loader, batch):
+    def test_model(self, loader):
         self.eval()
 
         ys, preds = [], []
         for data in loader:
-            ys.append(data.y.reshape(batch, -1))
+            ys.append(data.y.reshape(self.batch_size, -1))
             out = self(data.x.to(self.device), data.edge_index.to(self.device), data.batch.to(self.device))
             preds.append((out > 0).float().cpu())
         y, pred = torch.cat(ys, dim=0).numpy(), torch.cat(preds, dim=0).numpy()
