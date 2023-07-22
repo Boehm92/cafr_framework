@@ -132,9 +132,3 @@ dmypy.json
 *.stl
 *.csv
 *.CSV
-
-# Exclude the data folder
-/data/CadData/Test/*
-/data/CadData/Training/*
-/data/GraphData/Test/*
-/data/GraphData/Training/*
