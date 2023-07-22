@@ -452,8 +452,6 @@ class MachiningFeature:
         updated_model.mergeclose()
         updated_model = mdc.segmentation(updated_model)
 
-        mdc.show([updated_model])
-
         return updated_model
 
     def vertical_circular_end_blind_slot(self):

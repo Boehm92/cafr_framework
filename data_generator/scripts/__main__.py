@@ -7,7 +7,7 @@ machining_feature = 19
 
 cad_directory = 'TRAINING_DATASET_SOURCE'
 
-for i in range(0,  5):
+for i in range(0,  20):
     #
     # if i % 1 == 0:
     #     machining_feature += 1
