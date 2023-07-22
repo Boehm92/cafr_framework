@@ -1,4 +1,3 @@
-import os
 import math
 import numpy as np
 import numpy.random
@@ -6,12 +5,8 @@ import madcad as mdc
 
 
 class MachiningFeature:
-    def __init__(self,machining_feature, min_scale, max_scale, min_depth, max_depth):
+    def __init__(self, machining_feature):
         self.machining_feature = machining_feature
-        self.max_scale = max_scale
-        self.min_scale = min_scale
-        self.max_depth = max_depth
-        self.min_depth = min_depth
 
         self.machining_feature_functions = [self.o_ring, self.trough_hole,
                                             self.blind_hole, self.triangular_passage,
@@ -49,7 +44,7 @@ class MachiningFeature:
         updated_model = mdc.difference(_cube, o_ring)
         updated_model.mergeclose()
         updated_model = mdc.segmentation(updated_model)
-
+        mdc.show([updated_model])
         return updated_model
 
     def trough_hole(self):
@@ -437,18 +432,27 @@ class MachiningFeature:
         return updated_model
 
     def round(self):
-        _round = mdc.read(os.getenv('TEMPLATES_SOURCE') + '/Round.stl')
+        print("hello")
+        cube = mdc.brick(width=mdc.vec3(10))
+        cube = cube.transform(mdc.vec3(5, 5, 5))
+        R = np.random.uniform(1, 9)
+        Z = R - (R * math.sin(math.radians(45)))
+        Y = R - (R * math.sin(math.radians(45)))
+        _depth = 10.02
 
-        _round.mergeclose()
-        _round = mdc.segmentation(_round)
+        A = mdc.vec3(-0.01, 10.01 - R, 10.01)
+        B = mdc.vec3(-0.01, 10.01, 10.01)
+        C = mdc.vec3(-0.01, 10.01, 10.01 - R)
+        D = mdc.vec3(-0.01, 10.01 - Y, 10.01 - Z)
 
-        _width = np.random.uniform(1, self.max_scale)
-        _depth = np.random.uniform(1, self.max_depth)
+        _round = [mdc.Segment(A, B), mdc.Segment(B, C), mdc.ArcThrough(C, D, A)]
+        _round = mdc.extrusion(_depth * mdc.X, mdc.flatsurface(_round))
 
-        _round = _round.transform(mdc.mat3((_width / 9), 1.1, _depth / 9))
-        _round = _round.transform(mdc.vec3(-0.01, -0.01, -0.01))
+        updated_model = mdc.difference(cube, _round)
+        updated_model.mergeclose()
+        updated_model = mdc.segmentation(updated_model)
 
-        updated_model = mdc.difference(self.model, _round)
+        mdc.show([updated_model])
 
         return updated_model
 

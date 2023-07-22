@@ -3,19 +3,14 @@ import pandas as pd
 from cube_transform import *
 import machining_feature_transform as mft
 
-min_scale = 1
-max_scale = 9
-min_depth = 1
-max_depth = 9
-
-machining_feature = 20
+machining_feature = 19
 
 cad_directory = 'TRAINING_DATASET_SOURCE'
 
-for i in range(11193,  13547):
-
-    if i % 589 == 0:
-        machining_feature += 1
+for i in range(0,  5):
+    #
+    # if i % 1 == 0:
+    #     machining_feature += 1
 
     print("Part: ", i)
     label_list = []
@@ -23,7 +18,7 @@ for i in range(11193,  13547):
     try:
         print("machining feature: ", machining_feature)
 
-        model = mft.MachiningFeature(machining_feature, min_scale, max_scale, min_depth, max_depth).apply_feature()
+        model = mft.MachiningFeature(machining_feature).apply_feature()
         # model = rotate_model_randomly(model)
         label_list.append([0, 0, 0, 0, 0, 0, machining_feature])
     except:
