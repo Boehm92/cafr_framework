@@ -4,7 +4,7 @@ from madcad import *
 
 def rotate_model_randomly(model: Mesh):
 
-    rotation_axis = np.random.choice(['None', 'x', 'y', 'z', 'x', 'y', 'z'])
+    rotation_axis = np.random.choice(['None', 'x', 'y', 'z'])
 
     rotation = np.random.choice([-90, 90])
 
