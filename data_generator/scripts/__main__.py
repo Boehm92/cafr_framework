@@ -7,7 +7,7 @@ cad_directory = 'TRAINING_DATASET_SOURCE'
 
 machining_feature_limit = 0.6  # Percentage of the max possible dimension for every machining feature
 
-for i in range(1, 66283):
+for i in range(66283, 144001):
 
     print("Part: ", i)
     label_list = []
