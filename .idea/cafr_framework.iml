@@ -12,7 +12,7 @@
       <excludeFolder url="file://$MODULE_DIR$/synthetic_data_generator/venv_data_generator_windows" />
       <excludeFolder url="file://$MODULE_DIR$/graph_neural_network/venv_graph_neural_network_windows" />
     </content>
-    <orderEntry type="jdk" jdkName="venv_cafr_gnn" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="cafr_gnn_windows" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

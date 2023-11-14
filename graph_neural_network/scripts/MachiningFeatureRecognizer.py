@@ -3,8 +3,8 @@ import torch
 import wandb
 import optuna
 from torch_geometric.loader import DataLoader
-from network_model.TestModel import TestModel
-from network_model.GraphConvModel import GraphConvModel
+from network_models.TrainingNetwork import TrainingNetwork
+from network_models.TestingNetwork import TestingNetwork
 import torch.optim.lr_scheduler
 
 
@@ -30,8 +30,8 @@ class MachiningFeatureRecognizer:
         # Hyperparameter optimization
         _best_accuracy = 0
         _batch_size = trial.suggest_categorical("batch_size", self.batch_size)
-        _dropout_probability = trial.suggest_float("dropout_probability", 0.1, self.dropout_probability, step=0.1)
-        _number_conv_layers = trial.suggest_int("number_conv_layers", 2, self.max_network_layer)
+        _dropout_probability = trial.suggest_categorical("dropout_probability", self.dropout_probability)
+        _number_conv_layers = trial.suggest_categorical("number_conv_layers", self.max_network_layer)
         _hidden_channels = trial.suggest_categorical("hidden_channel", self.hidden_channels)
         _learning_rate = trial.suggest_categorical("learning_rate", self.learning_rate)
 
@@ -51,9 +51,10 @@ class MachiningFeatureRecognizer:
                                   shuffle=True, drop_last=True)
         val_loader = DataLoader(self.training_dataset[self.train_val_partition:], batch_size=_batch_size, shuffle=True,
                                 drop_last=True)
-        model = TestModel(dataset=self.training_dataset, device=self.device, batch_size=_batch_size,
-                          dropout_probability=_dropout_probability, number_conv_layers=_number_conv_layers,
-                          hidden_channels=_hidden_channels).to(self.device)
+
+        model = TrainingNetwork(dataset=self.training_dataset, device=self.device, batch_size=_batch_size,
+                                dropout_probability=_dropout_probability, number_conv_layers=_number_conv_layers,
+                                hidden_channels=_hidden_channels).to(self.device)
         print("b_size: ", _batch_size)
         print("lr: ", _learning_rate)
         print("dropout_probability: ", _dropout_probability)
@@ -63,7 +64,7 @@ class MachiningFeatureRecognizer:
         criterion = torch.nn.BCEWithLogitsLoss()
         optimizer = torch.optim.Adam(model.parameters(), lr=_learning_rate)
         scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=self.schedular_step_size,
-                                                    gamma=self.schedular_gamma, verbose=True)
+                                                    gamma=self.schedular_gamma)
 
         # Setting up hyperparameter function and wandb
         config = dict(trial.params)
@@ -81,9 +82,9 @@ class MachiningFeatureRecognizer:
 
             wandb.log({'training_loss': training_loss, 'val_los': val_loss, 'train_F1': train_f1, 'val_F1': val_f1})
 
-            if (best_accuracy < val_f1) & ((val_loss - training_loss) < 0.04):
+            if (_best_accuracy < val_f1) & ((val_loss - training_loss) < 0.04):
                 torch.save(model.state_dict(), os.getenv('WEIGHTS') + '/weights.pt')
-                best_accuracy = val_f1
+                _best_accuracy = val_f1
                 print("Saved model due to better found accuracy")
 
             if trial.should_prune():
@@ -102,15 +103,12 @@ class MachiningFeatureRecognizer:
 
     def test(self):
         # Configuring graph neural network
-        test_loader = DataLoader(self.test_dataset, batch_size=self.batch_size, shuffle=False, drop_last=True)
-        model = GraphConvModel(dataset=self.test_dataset, device=self.device).to(self.device)
-        model.load_state_dict(torch.load(os.getenv('WEIGHTS') + '/weights.pt', map_location=self.device))
+        _test_loader = DataLoader(self.test_dataset, batch_size=self.batch_size[0], shuffle=False, drop_last=True)
+        _model = TestingNetwork(dataset=self.test_dataset, device=self.device).to(self.device)
+        _model.load_state_dict(torch.load(os.getenv('WEIGHTS') + '/weights.pt'))
 
         print("b_size: ", self.batch_size)
-        print("lr: ", self.learning_rate)
-        print("dropout_probability: ", self.dropout_probability)
-        print("Graph neural network: ", model)
+        print("Graph neural network: ", _model)
+        _test_f1, _label, _prediction = _model.val_model(_test_loader)
 
-        test_f1 = model.val_model(test_loader)
-
-        return test_f1
+        return _test_f1, _label, _prediction

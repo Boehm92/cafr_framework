@@ -11,7 +11,6 @@ class GraphImporter(InMemoryDataset, ABC):
     def __init__(self, raw_data_root, root, transform=None):
         self.data_list = []
         self.raw_data_root = raw_data_root
-        print(self.raw_data_root)
         super().__init__(root, transform)
         self.data, self.slices = torch.load(self.processed_paths[0])
 

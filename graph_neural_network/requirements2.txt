@@ -1,7 +1,7 @@
-torch-geometric==2.4.0
+-f https://data.pyg.org/whl/torch-1.12.1%2Bcu113.html
 torch-scatter
 torch-sparse
 torch-cluster
 torch-spline-conv
 torch-geometric
--f https://data.pyg.org/whl/torch-1.12.1%2Bcu102.html
+

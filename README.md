@@ -26,18 +26,24 @@ Graph Neural Network to recognize machining features in .stl CAD data
       2. pip install numpy-stl==3.0.1 
       3. pip install pandas==2.1.1
 
-3. Create a python virtual environment for the synthetic_data_generator:
+3. Create a python virtual environment for the graph_neural_network:
    1. Environment should be created with an interpreter for python 3.10
    2. Activate the environment and install the requirements.txt file from the graph_neural_network application.
       Important: Because we need for this application, two different pip wheels, one for torch and one for 
       pytorch geometric, we provide to different files: requirements1.txt and requirements2.txt 
       To install the necessary python packages you must change directories to be in the same directory as the 
       requirements.txt files and type into the command line pip install -r requirements1.txt and after that
-      pip install -r requirements.txt 
+      pip install -r requirements.txt . IMPORTANT HINT: We weren't able to install the torch package via the 
+      requirements1.txt file and had to install ist manually, due to the fact that every time the torch cpu version was 
+      installed. If you want to train on your gpu use following command with fitting wheel
+      pip install torch==1.12.1+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html . You find more 
+      information for installing this package at https://pytorch.org/get-started/previous-versions/ . NOTE: The cuda
+      version is specific to your graphics card and what version you have installed. So please change the wheel link
+      accordingly
    3. You also can install the packages by hand:
-      1. pip install torch==1.13 -f https://data.pyg.org/whl/torch-1.13.0+cu117.html
+      1. pip install torch==1.12.1+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html 
       2. pip install pyg-lib torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric 
-      -f https://data.pyg.org/whl/torch-1.13.0+cu117.html
+      -f https://data.pyg.org/whl/torch-1.12.1%2Bcu113.html
       3. pip install wandb==0.13.9 (wandb sends the training data to the wandb-webserver, so you have to log in via 
          the terminal with following command: wandb login, also you have to register at wandb)
       4. pip install optuna==3.1.0
@@ -46,7 +52,6 @@ Graph Neural Network to recognize machining features in .stl CAD data
       be possible to run the code on the CPU. For more information, please visit: 
       https://pytorch-geometric.readthedocs.io/en/latest/install/installation.html
 
-   
 4. Define environment variables for the in steps 2 and 3 created virtual environments and add the directories for the 
    in step 1 created directories. The framework needs in total five environment variables:
    1. TRAINING_DATASET_SOURCE = data -> cad -> training (both data generator and graph neural network application)

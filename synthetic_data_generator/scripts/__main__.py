@@ -15,7 +15,7 @@ _parser.add_argument('--max_machining_feature_dimension',
 
 _parser.add_argument('--cad_data_generation_start_cycle',
                      dest='cad_data_generation_start_cycle', type=int, default=1,
-                     help='This value defines with wich ID the data generation process starts. This can be important'
+                     help='This value defines with which ID the data generation process starts. This can be important'
                           'if a dataset was already created and has to be increased with additional data. If the'
                           'start number of the data generation cycle then is not adapted, the existing data is just'
                           'overwritten')

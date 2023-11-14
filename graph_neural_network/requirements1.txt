@@ -1,4 +1,9 @@
 wandb==0.15.12
 optuna==3.4.0
 numpy-stl==3.0.1
-torch==1.12.1 -f https://download.pytorch.org/whl/cu102
+# For the usage of pytorch, it was necessary to install follwoing pytorch package via pip install, due to the fact that
+# else the torch cpu version was installed, sicnificantly making the training slower
+# torch==1.12.1+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+
+
+
