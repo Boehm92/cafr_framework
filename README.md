@@ -8,7 +8,8 @@ Graph Neural Network to recognize machining features in .stl CAD data
             2. test
          2. graph
             1. training
-               1. test
+            2. test
+   
    This CAFR framework follows the CAD and label data naming definition defined by https://github.com/PeizhiShi/MsvNet 
    If you want to use FeatureNet dataset from https://github.com/zibozzb/FeatureNet you need to add .csv files for each
    .stl file in the FeatureNet dataset. Also, you have to change the .STL file ending for each CAD model to .stl
