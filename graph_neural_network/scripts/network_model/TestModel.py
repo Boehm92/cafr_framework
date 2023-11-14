@@ -2,8 +2,9 @@ import torch
 from torch.nn import Linear
 import torch.nn.functional as f
 from sklearn.metrics import f1_score
-from torch_geometric.nn import GraphConv as GraphConvLayer # FeaStConv, GATConv, GraphConv GravNetConv, ,GCNConv, PointGNNConv
+from torch_geometric.nn import GraphConv as GraphConvLayer  # FeaStConv, GCNConv
 from torch_geometric.nn import global_mean_pool
+
 
 class TestModel(torch.nn.Module):
     def __init__(self, dataset, device, batch_size, dropout_probability, number_conv_layers, hidden_channels):
@@ -83,51 +84,11 @@ class TestModel(torch.nn.Module):
     def val_model(self, loader):
         self.eval()
 
-        ys, preds = [], []
+        label_list, prediction_list = [], []
         for data in loader:
-            ys.append(data.y.reshape(self.batch_size, -1))
+            label_list.append(data.y.reshape(self.batch_size, -1))
             out = self(data.x.to(self.device), data.edge_index.to(self.device), data.batch.to(self.device))
-            preds.append((out > 0).float().cpu())
+            prediction_list.append((out > 0).float().cpu())
 
-        y, pred = torch.cat(ys, dim=0).numpy(), torch.cat(preds, dim=0).numpy()
-        return 100*(f1_score(y, pred, average='micro') if pred.sum() > 0 else 0)
-
-    # @torch.no_grad()
-    # def val_model(self, loader):
-    #     self.eval()
-    #
-    #     correct_predictions, total_predictions = 0, 0
-    #
-    #     for data in loader:
-    #         out = self(data.x.to(self.device), data.edge_index.to(self.device), data.batch.to(self.device))
-    #         predicted_labels = (out > 0).float().cpu()
-    #         true_labels = data.y.reshape(self.batch_size, -1).cpu()
-    #
-    #         # Calculate accuracy for this batch
-    #
-    #         correct_predictions += (predicted_labels == true_labels).all(dim=1).sum().item()
-    #         total_predictions += len(true_labels)
-    #
-    #
-    #     accuracy = correct_predictions / total_predictions if total_predictions > 0 else 0.0
-    #
-    #     return 100*accuracy
-
-    def test_model(self, loader):
-        self.eval()
-
-        correct_predictions, total_predictions = 0, 0
-
-        for data in loader:
-            out = self(data.x.to(self.device), data.edge_index.to(self.device), data.batch.to(self.device))
-            predicted_labels = (out > 0).float().cpu()
-            true_labels = data.y.reshape(self.batch_size, -1).cpu()
-
-            # Calculate accuracy for this batch
-
-            correct_predictions += (predicted_labels == true_labels).all(dim=1).sum().item()
-            total_predictions += len(true_labels)
-
-        accuracy = correct_predictions / total_predictions if total_predictions > 0 else 0.0
-
-        return 100*accuracy
+        label, prediction = torch.cat(label_list, dim=0).numpy(), torch.cat(prediction_list, dim=0).numpy()
+        return 100 * (f1_score(label, prediction, average='micro') if prediction.sum() > 0 else 0)

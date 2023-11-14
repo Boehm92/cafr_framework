@@ -14,4 +14,4 @@ RUN apt-get update
 COPY .. .
 ENV PYTHONPATH `pwd`/..
 
-CMD [ "python3", "Graph_CADNet" ]
+CMD [ "python3", "graph_neural_network" ]

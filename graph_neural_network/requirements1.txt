@@ -1,0 +1,4 @@
+wandb==0.15.12
+optuna==3.4.0
+numpy-stl==3.0.1
+torch==1.12.1 -f https://download.pytorch.org/whl/cu102

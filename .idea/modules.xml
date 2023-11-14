@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/MachiningFeatureRecognizer.iml" filepath="$PROJECT_DIR$/.idea/MachiningFeatureRecognizer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cafr_framework.iml" filepath="$PROJECT_DIR$/.idea/cafr_framework.iml" />
     </modules>
   </component>
 </project>

@@ -1,13 +1,17 @@
 import os
 import torch
+import numpy as np
+from abc import ABC
+from stl import mesh
+from torch_geometric.data import Data
 from torch_geometric.data import InMemoryDataset
-from data_importer.cad_graph_converter import create as create_graph
 
 
-class MsvNetDataSet(InMemoryDataset):
+class GraphImporter(InMemoryDataset, ABC):
     def __init__(self, raw_data_root, root, transform=None):
         self.data_list = []
         self.raw_data_root = raw_data_root
+        print(self.raw_data_root)
         super().__init__(root, transform)
         self.data, self.slices = torch.load(self.processed_paths[0])
 
@@ -46,13 +50,43 @@ class MsvNetDataSet(InMemoryDataset):
     def processed_file_names(self):
         return 'data.pt'
 
+    @staticmethod
+    def cad_graph_conversion(cad_directory, file_labels):
+        # numpy-stl method to import an .STL file as mesh object
+        m = mesh.Mesh.from_file(cad_directory)
+
+        # Extract all the unique vectors from m.vectors
+        x = np.array(np.unique(m.vectors.reshape([int(m.vectors.size / 3), 3]), axis=0))
+
+        # create an edge list from mesh object
+        edge_index = []
+        for facet in m.vectors:
+            index_list = []
+            for vector in facet:
+                for count, features in enumerate(x):
+                    if np.array(vector == features).all():
+                        index_list.append(count)
+            edge_index.append([index_list[0], index_list[1]])
+            edge_index.append([index_list[1], index_list[0]])
+            edge_index.append([index_list[1], index_list[2]])
+            edge_index.append([index_list[2], index_list[1]])
+            edge_index.append([index_list[2], index_list[0]])
+            edge_index.append([index_list[0], index_list[2]])
+
+        # create graph objects with the x and edge_index list
+        x = torch.tensor(x / np.array([10, 10, 10])).float()
+        edge_index = torch.tensor(edge_index)
+        label_array = np.zeros(24)
+        for label in file_labels:
+            label_array[label] = 1
+
+        graph = Data(x=x, edge_index=edge_index.t().contiguous(), y=torch.tensor(label_array))
+
+        return graph
+
     def process(self):
-        path = self.raw_data_root
-        print(self.raw_data_root)
         for root, dirs, files in os.walk(self.raw_data_root):
-
             for file in files:
-
                 file_labels = []
 
                 if file.lower().endswith('.csv'):
@@ -62,9 +96,8 @@ class MsvNetDataSet(InMemoryDataset):
                             file_labels.append(int(line.split(",")[-1]))
 
                         file_name = str(file).replace('.csv', '.stl')
-                        self.data_list.append(create_graph(root + '/' + file_name, file_labels))
+                        self.data_list.append(self.cad_graph_conversion(root + '/' + file_name, file_labels))
                         print(file_name)
-
         torch.save(self.collate(self.data_list), self.processed_paths[0])
 
     def __repr__(self) -> str:
